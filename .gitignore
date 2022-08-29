@@ -108,3 +108,12 @@ service_accounts/
 
 #MacOS
 .DS_Store
+
+#Terraform
+.terraform/
+
+#Enviroment
+env/
+
+#Enviroment variables
+.envrc
