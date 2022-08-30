@@ -27,13 +27,6 @@ jobs:
     - name: Set up Cloud SDK
       uses: google-github-actions/setup-gcloud@v0
 
-    - name: Artifact Registry
-      run: |-
-        gcloud artifacts repositories create docker \
-          --repository-format=docker \
-          --location=us-west2 \
-          --description="Mysite docker repository"
-
     - name: Build
       run: |-
         gcloud builds submit \
