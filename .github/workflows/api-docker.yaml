@@ -6,7 +6,7 @@ on:
     - 'main'
 
 jobs:
-  build-api-image:
+  build:
     name: Setup and Build
     runs-on: ubuntu-latest
 
