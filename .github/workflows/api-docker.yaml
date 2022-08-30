@@ -6,6 +6,36 @@ on:
     - 'main'
 
 jobs:
+  infraestructure:
+    name: Provisioning
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        shell: bash
+        working-directory: infra
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Authenticate to Google Cloud
+      uses: google-github-actions/auth@v0
+      with:
+        credentials_json: ${{secrets.SA_KEY}}
+
+    - name: Setup GCP Cloud SDK
+      uses: google-github-actions/setup-gcloud@v0
+    
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v2
+
+    - name: Inicialization
+      run: terraform init
+
+    - name: Apply
+      run: terraform apply -auto-approve
+  
   build:
     name: Setup and Build
     runs-on: ubuntu-latest
