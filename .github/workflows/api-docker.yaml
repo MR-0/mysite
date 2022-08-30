@@ -34,7 +34,7 @@ jobs:
           --location=us-west2 \
           --description="Mysite docker repository"
 
-     - name: Build
+    - name: Build
       run: |-
         gcloud builds submit \
           --quiet \
