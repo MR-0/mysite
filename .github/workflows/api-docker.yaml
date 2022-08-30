@@ -29,6 +29,6 @@ jobs:
 
     - name: Build
       run: |-
-        gcloud builds submit \
+        gcloud builds submit api \
           --region=us-west2 \
           --tag us-west2-docker.pkg.dev/mysite-360701/docker/api:$GITHUB_SHA
