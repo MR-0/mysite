@@ -1,0 +1,41 @@
+name: 'Api'
+
+on:
+  push:
+	branches:
+  	- main
+
+jobs:
+  build-api-image:
+    name: Build API docker image
+    runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - id: auth
+      name: 'Authenticate to Google Cloud'
+      uses: google-github-actions/auth@v0
+      with:
+        credentials_json: ${{secrets.SA_KEY}}
+
+    - name: Set up Cloud SDK
+      uses: google-github-actions/setup-gcloud@v0
+
+    - name: Artifact Registry
+      run: |-
+        gcloud artifacts repositories create docker \
+          --repository-format=docker \
+          --location=us-west2 \
+          --description="Mysite docker repository"
+
+     - name: Build
+      run: |-
+        gcloud builds submit \
+          --quiet \
+          --region=us-west2 \
+          --tag "us-west2-docker.pkg.dev/mysite-360701/docker/mysite:$GITHUB_SHA"
