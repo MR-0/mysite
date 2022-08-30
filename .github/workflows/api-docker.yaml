@@ -2,8 +2,8 @@ name: 'Api'
 
 on:
   push:
-	branches:
-  	- main
+  branches:
+    - main
 
 jobs:
   build-api-image:
