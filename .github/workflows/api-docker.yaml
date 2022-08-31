@@ -1,9 +1,13 @@
-name: 'Build and deploy API'
+name: 'API'
 
 on:
   push:
     branches:
     - 'main'
+
+env:
+  PROJECT: mysite-360701
+  DOCKER_ARTIFACT_PATH: docker
 
 jobs:
   infraestructure:
@@ -56,4 +60,4 @@ jobs:
       run: |-
         gcloud builds submit api \
           --region=us-west2 \
-          --tag us-west2-docker.pkg.dev/mysite-360701/docker/api:$GITHUB_SHA
+          --tag us-west2-docker.pkg.dev/$PROJECT/$DOCKER_ARTIFACT_PATH/api:$GITHUB_SHA
