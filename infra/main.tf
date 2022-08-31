@@ -45,11 +45,31 @@ resource "google_artifact_registry_repository" "images" {
   format        = "DOCKER"
 }
 
-module "gce-container" {
-  source = "terraform-google-modules/container-vm/google"
-  version = "~> 2.0"
-
+module "initial-container" {
+  source = "../../"
   container = {
-    image="gcr.io/google-samples/hello-app:1.0"
+    image = "gcr.io/google-samples/hello-app:1.0"
+  }
+}
+
+resource "google_compute_instance" "vm_instance" {
+  name         = "api"
+  machine_type = "e2-micro"
+
+  boot_disk {
+    initialize_params {
+      image = module.initial-container.source_image
+    }
+  }
+
+  network_interface {
+    network = "default"
+    access_config {}
+  }
+
+  metadata = {
+    gce-container-declaration = module.initial-container.metadata_value
+    google-logging-enabled    = "true"
+    google-monitoring-enabled = "true"
   }
 }
