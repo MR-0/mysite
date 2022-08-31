@@ -111,6 +111,7 @@ service_accounts/
 
 #Terraform
 .terraform/
+.terraform.lock.hcl
 
 #Enviroment
 env/
