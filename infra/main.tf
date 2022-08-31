@@ -2,6 +2,14 @@ variable "PROJECT" {
   type     = string
   nullable = false
 }
+variable "DOCKER_ARTIFACT_PATH" {
+  type     = string
+  nullable = false
+}
+variable "DOCKER_ARTIFACT_REGION" {
+  type     = string
+  nullable = false
+}
 
 terraform {
   required_providers {
@@ -31,9 +39,9 @@ provider "google" {
   zone    = "us-central1-c"
 }
 
-resource "google_artifact_registry_repository" "docker" {
-  location      = "us-central1"
-  repository_id = "docker"
+resource "google_artifact_registry_repository" "images" {
+  location      = var.DOCKER_ARTIFACT_REGION
+  repository_id = var.DOCKER_ARTIFACT_PATH
   format        = "DOCKER"
 }
 

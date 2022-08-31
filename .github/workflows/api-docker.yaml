@@ -8,7 +8,10 @@ on:
 env:
   PROJECT: mysite-360701
   DOCKER_ARTIFACT_PATH: docker
+  DOCKER_ARTIFACT_REGION: docker
   TF_VAR_PROJECT: mysite-360701
+  TF_VAR_DOCKER_ARTIFACT_PATH: docker
+  TF_VAR_DOCKER_ARTIFACT_REGION: us-central1
 
 jobs:
   infraestructure:
