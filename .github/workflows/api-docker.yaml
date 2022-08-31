@@ -14,15 +14,15 @@ jobs:
     name: Provisioning
     runs-on: ubuntu-latest
 
-    env:
-      TF_VAR_PROJECT: $PROJECT
-
     defaults:
       run:
         shell: bash
         working-directory: infra
 
     steps:
+    - name: Set enviorement variables
+      run: echo "TF_VAR_PROJECT=$PROJECT" >> $GITHUB_ENV
+    
     - name: Checkout
       uses: actions/checkout@v3
 
