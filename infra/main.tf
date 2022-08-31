@@ -55,11 +55,6 @@ resource "google_compute_instance" "vm_instance" {
     }
   }
 
-  metadata {
-    google-logging-enabled = "true"  
-    gce-container-declaration = "spec:\ncontainers:\n- name: instance-4\n image: 'gcr.io/cloud-marketplace/google/nginx1:latest'\n stdin: false\n tty: false\n restartPolicy: Always\n"
-  }
-
   network_interface {
     network = "default"
     access_config {
