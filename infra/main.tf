@@ -18,6 +18,12 @@ provider "google" {
   zone    = "us-central1-c"
 }
 
+resource "google_artifact_registry_repository" "docker" {
+  location      = "us-central1"
+  repository_id = "docker"
+  format        = "DOCKER"
+}
+
 resource "google_compute_instance" "vm_instance" {
   name         = "terraform-instance-2"
   machine_type = "e2-micro"
