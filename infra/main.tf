@@ -1,3 +1,8 @@
+variable "PROJECT" {
+  type     = string
+  nullable = false
+}
+
 terraform {
   required_providers {
     google = {
@@ -8,7 +13,7 @@ terraform {
 }
 
 provider "google" {
-  project = "mysite-360701"
+  project = var.PROJECT
   region  = "us-central1"
   zone    = "us-central1-c"
 }
