@@ -3,6 +3,11 @@ variable "PROJECT" {
   nullable = false
 }
 
+variable "terraform_state_name" {
+  type    = string
+  default = "terraform-state"
+}
+
 terraform {
   required_providers {
     google = {
@@ -12,7 +17,7 @@ terraform {
   }
 
   backend "gcs" {
-    bucket = google_storage_bucket.terraform_state.name
+    bucket = var.terraform_state_name
     prefix = "terraform/state"
   }
 }
@@ -24,7 +29,7 @@ provider "google" {
 }
 
 resource "google_storage_bucket" "terraform_state" {
-  name          = "terraform-state"
+  name          = var.terraform_state_name
   location      = "US"
   storage_class = "ARCHIVE"
 }
