@@ -10,12 +10,23 @@ terraform {
       version = "4.34.0"
     }
   }
+
+  backend "gcs" {
+    bucket = google_storage_bucket.terraform_state.name
+    prefix = "terraform/state"
+  }
 }
 
 provider "google" {
   project = var.PROJECT
   region  = "us-central1"
   zone    = "us-central1-c"
+}
+
+resource "google_storage_bucket" "terraform_state" {
+  name          = "terraform-state"
+  location      = "US"
+  storage_class = "ARCHIVE"
 }
 
 resource "google_artifact_registry_repository" "docker" {
