@@ -45,19 +45,11 @@ resource "google_artifact_registry_repository" "images" {
   format        = "DOCKER"
 }
 
-resource "google_compute_instance" "vm_instance" {
-  name         = "api"
-  machine_type = "e2-micro"
+module "gce-container" {
+  source = "terraform-google-modules/container-vm/google"
+  version = "~> 2.0"
 
-  boot_disk {
-    initialize_params {
-      image = "cos-cloud/cos-97-lts"
-    }
-  }
-
-  network_interface {
-    network = "default"
-    access_config {
-    }
+  container = {
+    image="gcr.io/google-samples/hello-app:1.0"
   }
 }
