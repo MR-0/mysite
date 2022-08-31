@@ -46,7 +46,8 @@ resource "google_artifact_registry_repository" "images" {
 }
 
 module "initial-container" {
-  source = "../../"
+  source = "terraform-google-modules/container-vm/google"
+  version = "~> 2.0"
   container = {
     image = "gcr.io/google-samples/hello-app:1.0"
   }
