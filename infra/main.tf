@@ -17,6 +17,14 @@ terraform {
   }
 }
 
+data "terraform_remote_state" "state" {
+  backend = "gcs"
+  config = {
+    bucket = "terraform-state-lrrthzu2"
+    prefix = "terraform/state"
+  }
+}
+
 provider "google" {
   project = var.PROJECT
   region  = "us-central1"
