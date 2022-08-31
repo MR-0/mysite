@@ -64,5 +64,5 @@ jobs:
     - name: Build
       run: |-
         gcloud builds submit api \
-          --region=us-west2 \
-          --tag us-west2-docker.pkg.dev/$PROJECT/$DOCKER_ARTIFACT_PATH/api:$GITHUB_SHA
+          --region=$DOCKER_ARTIFACT_REGION \
+          --tag $DOCKER_ARTIFACT_REGION-docker.pkg.dev/$PROJECT/$DOCKER_ARTIFACT_PATH/api:$GITHUB_SHA
