@@ -12,7 +12,7 @@ terraform {
   }
 
   backend "gcs" {
-    bucket = "terraform-state"
+    bucket = "terraform-state-lrrthzu2"
     prefix = "terraform/state"
   }
 }
@@ -21,12 +21,6 @@ provider "google" {
   project = var.PROJECT
   region  = "us-central1"
   zone    = "us-central1-c"
-}
-
-resource "google_storage_bucket" "terraform_state" {
-  name          = "terraform-state"
-  location      = "US"
-  storage_class = "ARCHIVE"
 }
 
 resource "google_artifact_registry_repository" "docker" {
