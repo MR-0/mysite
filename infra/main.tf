@@ -50,6 +50,11 @@ module "initial-container" {
   version = "~> 2.0"
   container = {
     image = "gcr.io/google-samples/hello-app:1.0"
+    env = [
+      {
+        PORT = 80
+      }
+    ]
   }
 }
 
