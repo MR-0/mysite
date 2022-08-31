@@ -2,6 +2,10 @@ variable "PROJECT" {
   type     = string
   nullable = false
 }
+variable "TERRAFORM_STATE_BUCKET" {
+  type     = string
+  nullable = false
+}
 variable "DOCKER_ARTIFACT_PATH" {
   type     = string
   nullable = false
@@ -20,7 +24,7 @@ terraform {
   }
 
   backend "gcs" {
-    bucket = "terraform-state-lrrthzu2"
+    bucket = var.TERRAFORM_STATE_BUCKET
     prefix = "terraform/state"
   }
 }
@@ -46,7 +50,7 @@ resource "google_artifact_registry_repository" "images" {
 }
 
 module "initial-container" {
-  source = "terraform-google-modules/container-vm/google"
+  source  = "terraform-google-modules/container-vm/google"
   version = "~> 2.0"
   container = {
     image = "gcr.io/google-samples/hello-app:1.0"
