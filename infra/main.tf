@@ -49,32 +49,19 @@ resource "google_artifact_registry_repository" "images" {
   format        = "DOCKER"
 }
 
-module "initial-container" {
-  source  = "terraform-google-modules/container-vm/google"
-  version = "~> 2.0"
-  container = {
-    image = "gcr.io/google-samples/hello-app:1.0"
-  }
-}
-
-resource "google_compute_instance" "vm_instance" {
-  name         = "api"
-  machine_type = "e2-micro"
-
-  boot_disk {
-    initialize_params {
-      image = module.initial-container.source_image
+resource "google_cloud_run_service" "api" {
+  name     = "api"
+  location = var.REGION
+  template {
+    spec {
+      containers {
+        image = "us-docker.pkg.dev/cloudrun/container/hello"
+      }
     }
   }
 
-  network_interface {
-    network = "default"
-    access_config {}
-  }
-
-  metadata = {
-    gce-container-declaration = module.initial-container.metadata_value
-    google-logging-enabled    = "true"
-    google-monitoring-enabled = "true"
+  traffic {
+    percent         = 100
+    latest_revision = true
   }
 }
