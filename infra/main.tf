@@ -41,6 +41,11 @@ resource "google_cloud_run_service" "api" {
         image = var.api_image
       }
     }
+    metadata {
+      annotations = {
+        "autoscaling.knative.dev/minScale" = "1"
+      }
+    }
   }
 
   traffic {
