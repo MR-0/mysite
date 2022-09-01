@@ -12,7 +12,6 @@ env:
   DOCKER_ARTIFACT_PATH: docker
   TF_VAR_PROJECT: mysite-360701
   TF_VAR_DOCKER_ARTIFACT_REGION: us-central1
-  TF_VAR_TERRAFORM_STATE_BUCKET: terraform-state-lrrthzu
   TF_VAR_DOCKER_ARTIFACT_PATH: docker
 
 jobs:
@@ -62,7 +61,9 @@ jobs:
       uses: hashicorp/setup-terraform@v2
 
     - name: Inicialization
-      run: terraform init
+      run: |-
+        terraform init \
+        -backend-config="bucket=$TERRAFORM_STATE_BUCKET"
 
     - name: Apply
       run: terraform apply -auto-approve

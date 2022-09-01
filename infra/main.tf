@@ -2,10 +2,6 @@ variable "PROJECT" {
   type     = string
   nullable = false
 }
-variable "TERRAFORM_STATE_BUCKET" {
-  type     = string
-  nullable = false
-}
 variable "DOCKER_ARTIFACT_PATH" {
   type     = string
   nullable = false
@@ -24,7 +20,6 @@ terraform {
   }
 
   backend "gcs" {
-    bucket = var.TERRAFORM_STATE_BUCKET
     prefix = "terraform/state"
   }
 }
