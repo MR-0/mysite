@@ -9,7 +9,6 @@ env:
   project: mysite-360701
   region: us-central1
   terraform_state: terraform-state-lrrthzu
-  docker_artifact_path: docker
 
 jobs:
   terraform-state:
@@ -38,11 +37,7 @@ jobs:
     name: Build and push API image
     runs-on: ubuntu-latest
 
-    steps:
-    - name: Custom env variables
-      run: |-
-        echo "image=${{env.region}}-docker.pkg.dev/${{env.project}}/docker/api:latest" >> $GITHUB_ENV
-    
+    steps:    
     - name: Checkout
       uses: actions/checkout@v3
 
@@ -58,8 +53,8 @@ jobs:
       run: |-
         cd api && \
         gcloud builds submit \
-          --region=$region \
-          --tag $image
+          --region $region \
+          --tag ${{env.region}}-docker.pkg.dev/${{env.project}}/api:latest
   
   infraestructure:
     name: Provisioning
@@ -77,8 +72,7 @@ jobs:
     - name: Custom env variables
       run: |-
         echo "TF_VAR_project=${{env.project}}" >> $GITHUB_ENV && \
-        echo "TF_VAR_region=${{env.region}}" >> $GITHUB_ENV && \
-        echo "TF_VAR_docker_artifact_path=${{env.docker_artifact_path}}" >> $GITHUB_ENV
+        echo "TF_VAR_region=${{env.region}}" >> $GITHUB_ENV
     
     - name: Checkout
       uses: actions/checkout@v3
