@@ -71,7 +71,6 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: infra
 
     steps:
     - name: Custom env variables
@@ -96,8 +95,11 @@ jobs:
 
     - name: Inicialization
       run: |-
+        cd infra && \
         terraform init \
         -backend-config="bucket=$terraform_state"
 
     - name: Apply
-      run: terraform apply -auto-approve
+      run: |-
+        cd infra && \
+        terraform apply -auto-approve
