@@ -36,6 +36,8 @@ jobs:
   build-api:
     name: Build and push API image
     runs-on: ubuntu-latest
+    env:
+      repository: docker
 
     steps:    
     - name: Checkout
@@ -49,12 +51,19 @@ jobs:
     - name: Setup GCP Cloud SDK
       uses: google-github-actions/setup-gcloud@v0
 
+    - name: Setup repository
+      run: |-
+        gcloud gcloud artifacts repositories create $repository \
+          --location us-central1 \
+          --repository-format docker \
+          2>/dev/null || true
+
     - name: Build
       run: |-
         cd api && \
         gcloud builds submit \
           --region $region \
-          --tag ${{env.region}}-docker.pkg.dev/${{env.project}}/api:latest
+          --tag $region-docker.pkg.dev/$project/$repository/api:latest
   
   infraestructure:
     name: Provisioning
