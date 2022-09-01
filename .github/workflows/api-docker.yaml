@@ -16,31 +16,9 @@ env:
   TF_VAR_TERRAFORM_STATE_BUCKET: terraform-state-lrrthzu
 
 jobs:
-  setup-infraestructure-state:
-    name: Setup infraestructure state
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Authenticate to Google Cloud
-      uses: google-github-actions/auth@v0
-      with:
-        credentials_json: ${{secrets.SA_KEY}}
-
-    - name: Setup GCP Cloud SDK
-      uses: google-github-actions/setup-gcloud@v0
-
-    - name: Create GCP Store
-      run: |-
-        gsutil ls gs://$TERRAFORM_STATE_BUCKET \
-        2>/dev/null || \
-        gsutil mb \
-        -l $DOCKER_ARTIFACT_REGION \
-        gs://$TERRAFORM_STATE_BUCKET
-  
   infraestructure:
     name: Provisioning
     runs-on: ubuntu-latest
-    needs: setup-infraestructure-state
 
     defaults:
       run:
@@ -62,6 +40,14 @@ jobs:
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v2
 
+    - name: Create GCP Store
+      run: |-
+        gsutil ls gs://$TERRAFORM_STATE_BUCKET \
+        2>/dev/null || \
+        gsutil mb \
+        -l $DOCKER_ARTIFACT_REGION \
+        gs://$TERRAFORM_STATE_BUCKET
+
     - name: Inicialization
       run: |-
         terraform init \
@@ -71,9 +57,9 @@ jobs:
       run: terraform apply -auto-approve
   
   build:
-    needs: infraestructure
     name: Setup and Build
     runs-on: ubuntu-latest
+    needs: infraestructure
 
     steps:
     - name: Checkout
