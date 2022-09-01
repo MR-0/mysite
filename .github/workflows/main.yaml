@@ -53,7 +53,7 @@ jobs:
 
     - name: Setup repository
       run: |-
-        gcloud gcloud artifacts repositories create $repository \
+        gcloud artifacts repositories create $repository \
           --location us-central1 \
           --repository-format docker \
           2>/dev/null || true
