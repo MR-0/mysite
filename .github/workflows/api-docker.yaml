@@ -92,5 +92,5 @@ jobs:
     - name: Grant public access
       run: |-
         gcloud run services add-iam-policy-binding api \
-          --member="allUsers" \
-          --role="roles/run.invoker
+          --member allUsers \
+          --role roles/run.invoker
