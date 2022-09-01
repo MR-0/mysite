@@ -2,11 +2,11 @@ variable "PROJECT" {
   type     = string
   nullable = false
 }
-variable "DOCKER_ARTIFACT_PATH" {
+variable "REGION" {
   type     = string
   nullable = false
 }
-variable "DOCKER_ARTIFACT_REGION" {
+variable "DOCKER_ARTIFACT_PATH" {
   type     = string
   nullable = false
 }
@@ -44,7 +44,7 @@ provider "google" {
 }
 
 resource "google_artifact_registry_repository" "images" {
-  location      = var.DOCKER_ARTIFACT_REGION
+  location      = var.REGION
   repository_id = var.DOCKER_ARTIFACT_PATH
   format        = "DOCKER"
 }

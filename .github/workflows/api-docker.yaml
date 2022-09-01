@@ -7,11 +7,11 @@ on:
 
 env:
   PROJECT: mysite-360701
-  DOCKER_ARTIFACT_REGION: us-central1
+  REGION: us-central1
   DOCKER_ARTIFACT_PATH: docker
   TERRAFORM_STATE_BUCKET: terraform-state-lrrthzu
   TF_VAR_PROJECT: mysite-360701
-  TF_VAR_DOCKER_ARTIFACT_REGION: us-central1
+  TF_VAR_REGION: us-central1
   TF_VAR_DOCKER_ARTIFACT_PATH: docker
   TF_VAR_TERRAFORM_STATE_BUCKET: terraform-state-lrrthzu
 
@@ -45,7 +45,7 @@ jobs:
         gsutil ls gs://$TERRAFORM_STATE_BUCKET \
         2>/dev/null || \
         gsutil mb \
-        -l $DOCKER_ARTIFACT_REGION \
+        -l $REGION \
         gs://$TERRAFORM_STATE_BUCKET
 
     - name: Inicialization
@@ -76,5 +76,5 @@ jobs:
     - name: Build
       run: |-
         gcloud builds submit api \
-          --region=$DOCKER_ARTIFACT_REGION \
-          --tag $DOCKER_ARTIFACT_REGION-docker.pkg.dev/$PROJECT/$DOCKER_ARTIFACT_PATH/api:$GITHUB_SHA
+          --region=$REGION \
+          --tag $REGION-docker.pkg.dev/$PROJECT/$DOCKER_ARTIFACT_PATH/api:$GITHUB_SHA
