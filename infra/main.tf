@@ -48,20 +48,3 @@ resource "google_artifact_registry_repository" "images" {
   repository_id = var.DOCKER_ARTIFACT_PATH
   format        = "DOCKER"
 }
-
-resource "google_cloud_run_service" "api" {
-  name     = "api"
-  location = var.REGION
-  template {
-    spec {
-      containers {
-        image = "gcr.io/cloudrun/hello"
-      }
-    }
-  }
-
-  traffic {
-    percent         = 100
-    latest_revision = true
-  }
-}
