@@ -56,7 +56,8 @@ jobs:
 
     - name: Build
       run: |-
-        gcloud builds submit api \
+        cd api && \
+        gcloud builds submit \
           --region=$region \
           --tag $image
   
