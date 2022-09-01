@@ -11,6 +11,11 @@ variable "DOCKER_ARTIFACT_REGION" {
   nullable = false
 }
 
+variable "TERRAFORM_STATE_BUCKET" {
+  type     = string
+  nullable = false
+}
+
 terraform {
   required_providers {
     google = {
@@ -27,7 +32,7 @@ terraform {
 data "terraform_remote_state" "state" {
   backend = "gcs"
   config = {
-    bucket = "terraform-state-lrrthzu2"
+    bucket = var.TERRAFORM_STATE_BUCKET
     prefix = "terraform/state"
   }
 }
