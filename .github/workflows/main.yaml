@@ -16,7 +16,7 @@ jobs:
     name: Setup Terraform state
     runs-on: ubuntu-latest
     env:
-      bucket: gs://${{env.terraform_state}}
+      bucket: 'gs://${{env.terraform_state}}'
     
     steps:
     - name: Authenticate
@@ -36,8 +36,8 @@ jobs:
     name: Build and push API image
     runs-on: ubuntu-latest
     env:
-      path: ${{env.region}}-docker.pkg.dev/${{env.project}}/docker
-      image: ${{env.region}}/api:$GITHUB_SHA
+      path: '${{env.region}}-docker.pkg.dev/${{env.project}}/docker'
+      image: '${{env.region}}/api:$GITHUB_SHA'
 
     steps:
     - name: Checkout
