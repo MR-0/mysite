@@ -27,7 +27,7 @@ terraform {
 data "terraform_remote_state" "state" {
   backend = "gcs"
   config = {
-    bucket = terraform.backend.bucket
+    bucket = terraform.bucket
     prefix = "terraform/state"
   }
 }
