@@ -9,7 +9,7 @@ env:
   project: mysite-360701
   region: us-central1
   terraform_state: terraform-state-lrrthzu
-  docker_artifact_path: ${{env.region}}-docker.pkg.dev/${{env.project}}/docker
+  docker_artifact_path: docker
 
 jobs:
   terraform-state:
@@ -36,7 +36,8 @@ jobs:
     name: Build and push API image
     runs-on: ubuntu-latest
     env:
-      image: ${{env.docker_artifact_path}}/api:$GITHUB_SHA
+      path: ${{env.region}}-docker.pkg.dev/${{env.project}}/docker
+      image: ${{env.region}}/api:$GITHUB_SHA
 
     steps:
     - name: Checkout
@@ -66,7 +67,7 @@ jobs:
     env:
       TF_VAR_project: ${{env.project}}
       TF_VAR_region: ${{env.region}}
-      TF_VAR_docker_artifact_path: ${{env.region}}
+      TF_VAR_docker_artifact_path: ${{env.docker_artifact_path}}
 
     defaults:
       run:
