@@ -15,10 +15,12 @@ jobs:
   terraform-state:
     name: Setup Terraform state
     runs-on: ubuntu-latest
-    env:
-      bucket: 'gs://${{env.terraform_state}}'
     
     steps:
+    - name: Custom env variables
+      run: |-
+        echo "bucket=gs://${{env.terraform_state}}" >> $GITHUB_ENV
+    
     - name: Authenticate
       uses: google-github-actions/auth@v0
       with:
@@ -29,17 +31,18 @@ jobs:
 
     - name: Setup Terraform state
       run: |-
-        gsutil ls ${{env.bucket}} 2>/dev/null || \
-        gsutil mb -l ${{env.region}} ${{env.bucket}}
+        gsutil ls $bucket 2>/dev/null || \
+        gsutil mb -l $region $bucket
 
   build-api:
     name: Build and push API image
     runs-on: ubuntu-latest
-    env:
-      path: '${{env.region}}-docker.pkg.dev/${{env.project}}/docker'
-      image: '${{env.region}}/api:$GITHUB_SHA'
 
     steps:
+    - name: Custom env variables
+      run: |-
+        echo "image=${{env.region}}-docker.pkg.dev/${{env.project}}/docker/api:latest" >> $GITHUB_ENV
+    
     - name: Checkout
       uses: actions/checkout@v3
 
@@ -54,8 +57,8 @@ jobs:
     - name: Build
       run: |-
         gcloud builds submit api \
-          --region=${{env.region}} \
-          --tag ${{env.image}}
+          --region=$region \
+          --tag $image
   
   infraestructure:
     name: Provisioning
@@ -64,10 +67,6 @@ jobs:
       terraform-state,
       build-api
     ]
-    env:
-      TF_VAR_project: ${{env.project}}
-      TF_VAR_region: ${{env.region}}
-      TF_VAR_docker_artifact_path: ${{env.docker_artifact_path}}
 
     defaults:
       run:
@@ -75,6 +74,12 @@ jobs:
         working-directory: infra
 
     steps:
+    - name: Custom env variables
+      run: |-
+        echo "TF_VAR_project=${{env.project}}" >> $GITHUB_ENV && \
+        echo "TF_VAR_region=${{env.region}}" >> $GITHUB_ENV && \
+        echo "TF_VAR_docker_artifact_path=${{env.docker_artifact_path}}" >> $GITHUB_ENV
+    
     - name: Checkout
       uses: actions/checkout@v3
 
@@ -92,7 +97,7 @@ jobs:
     - name: Inicialization
       run: |-
         terraform init \
-        -backend-config="bucket=${{env.terraform_state}}"
+        -backend-config="bucket=$terraform_state"
 
     - name: Apply
       run: terraform apply -auto-approve
