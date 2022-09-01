@@ -89,3 +89,9 @@ jobs:
           --min-instances 1 \
           --allow-unauthenticated \
           --image $REGION-docker.pkg.dev/$PROJECT/$DOCKER_ARTIFACT_PATH/api:$GITHUB_SHA
+    
+    - name: Grant public access
+      run: |-
+        gcloud run services add-iam-policy-binding api \
+          --member="allUsers" \
+          --role="roles/run.invoker
