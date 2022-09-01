@@ -1,17 +1,12 @@
-variable "PROJECT" {
+variable "project" {
   type     = string
   nullable = false
 }
-variable "REGION" {
+variable "region" {
   type     = string
   nullable = false
 }
-variable "DOCKER_ARTIFACT_PATH" {
-  type     = string
-  nullable = false
-}
-
-variable "TERRAFORM_STATE_BUCKET" {
+variable "docker_artifact_path" {
   type     = string
   nullable = false
 }
@@ -32,19 +27,19 @@ terraform {
 data "terraform_remote_state" "state" {
   backend = "gcs"
   config = {
-    bucket = var.TERRAFORM_STATE_BUCKET
+    bucket = terraform.backend.bucket
     prefix = "terraform/state"
   }
 }
 
 provider "google" {
-  project = var.PROJECT
-  region  = "us-central1"
+  project = var.project
+  region  = var.region
   zone    = "us-central1-c"
 }
 
 resource "google_artifact_registry_repository" "images" {
-  location      = var.REGION
-  repository_id = var.DOCKER_ARTIFACT_PATH
+  location      = var.region
+  repository_id = var.docker_artifact_path
   format        = "DOCKER"
 }

@@ -9,15 +9,14 @@ env:
   project: mysite-360701
   region: us-central1
   terraform_state: terraform-state-lrrthzu
-  TF_VAR_PROJECT: mysite-360701
-  TF_VAR_REGION: us-central1
+  docker_artifact_path: ${{env.region}}-docker.pkg.dev/${{env.project}}/docker
 
 jobs:
   terraform-state:
     name: Setup Terraform state
     runs-on: ubuntu-latest
     env:
-      bucket: gs://${{terraform_state}}
+      bucket: gs://${{env.terraform_state}}
     
     steps:
     - name: Authenticate
@@ -37,7 +36,7 @@ jobs:
     name: Build and push API image
     runs-on: ubuntu-latest
     env:
-      image: ${{env.region}}-docker.pkg.dev/${{env.project}}/docker/api:$GITHUB_SHA
+      image: ${{env.docker_artifact_path}}/api:$GITHUB_SHA
 
     steps:
     - name: Checkout
@@ -64,6 +63,10 @@ jobs:
       terraform-state,
       build-api
     ]
+    env:
+      TF_VAR_project: ${{env.project}}
+      TF_VAR_region: ${{env.region}}
+      TF_VAR_docker_artifact_path: ${{env.region}}
 
     defaults:
       run:
