@@ -84,4 +84,8 @@ jobs:
       run: |-
         gcloud run deploy api \
           --region $REGION \
+          --port 8080 \
+          --ingress all \
+          --min-instances 1 \
+          --allow-unauthenticated \
           --image $REGION-docker.pkg.dev/$PROJECT/$DOCKER_ARTIFACT_PATH/api:$GITHUB_SHA
