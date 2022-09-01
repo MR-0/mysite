@@ -30,7 +30,8 @@ jobs:
 
     - name: Create GCP Store
       run: |-
-        gsutil ls gs://funy 2>/dev/null || \
+        gsutil ls gs://$TERRAFORM_STATE_BUCKET \
+        2>/dev/null || \
         gsutil mb \
         -l $DOCKER_ARTIFACT_REGION \
         gs://$TERRAFORM_STATE_BUCKET
