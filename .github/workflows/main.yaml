@@ -73,12 +73,16 @@ jobs:
     - name: Setup GCP Cloud SDK
       uses: google-github-actions/setup-gcloud@v0
 
-    - name: Build
+    - name: Build and push
+      id: build
       run: |-
         cd api && \
         gcloud builds submit \
           --region $region \
           --tag $region-docker.pkg.dev/$project/$docker_repository/api:latest
+
+    - name: Print outputs
+      run: echo ${{steps.build.outputs}}
   
   infraestructure:
     name: Provisioning and deploy
