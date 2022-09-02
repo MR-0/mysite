@@ -84,7 +84,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [
       docker-repository,
-      terraform-state,
+      terraform-state-bucket,
       build-api
     ]
 
