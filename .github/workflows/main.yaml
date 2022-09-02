@@ -9,6 +9,7 @@ env:
   project: mysite-360701
   region: us-central1
   terraform_state: terraform-state-lrrthzu
+  docker_repository: docker
 
 jobs:
   docker-repository:
@@ -26,7 +27,7 @@ jobs:
 
     - name: Setup repository
       run: |-
-        gcloud artifacts repositories create docker \
+        gcloud artifacts repositories create $docker_repository \
           --location us-central1 \
           --repository-format docker \
           2>/dev/null || true
@@ -77,7 +78,7 @@ jobs:
         cd api && \
         gcloud builds submit \
           --region $region \
-          --tag $region-docker.pkg.dev/$project/$repository/api:latest
+          --tag $region-docker.pkg.dev/$project/$docker_repository/api:latest
   
   infraestructure:
     name: Provisioning
@@ -97,7 +98,7 @@ jobs:
       run: |-
         echo "TF_VAR_project=${{env.project}}" >> $GITHUB_ENV && \
         echo "TF_VAR_region=${{env.region}}" >> $GITHUB_ENV && \
-        echo "TF_VAR_api_image=${{env.region}}-docker.pkg.dev/${{env.project}}/docker/api:latest" >> $GITHUB_ENV
+        echo "TF_VAR_api_image=${{env.region}}-docker.pkg.dev/${{env.project}}/${{env.docker_repository}}/api:latest" >> $GITHUB_ENV
     
     - name: Checkout
       uses: actions/checkout@v3
