@@ -44,6 +44,7 @@ resource "google_cloud_run_service" "api" {
     metadata {
       annotations = {
         "autoscaling.knative.dev/minScale" = "1"
+        "autoscaling.knative.dev/minScale" = "10"
       }
     }
   }
