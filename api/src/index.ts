@@ -22,17 +22,27 @@ app.get('/brands', (_req, res) => {
 
 app.get('/brands/:id', (req, res) => {
   const brand = brands.find(({ id }) => id === req.params.id);
-  if (!brand) res.sendStatus(404);
-  else res.send(brand);
+  if (!brand) return res.sendStatus(404);
+  return res.send(brand);
 });
 
 app.post('/brands', (req, res) => {
   const brand = {
-    id: brands.length + 1,
+    id: (brands.length + 1).toString(),
     ...req.body
   };
   brands.push(brand)
   res.send(brand);
+});
+
+app.put('/brands/:id', (req, res) => {
+  const index = brands.map(({ id }) => id).indexOf(req.params.id);
+  if (index < 0) return res.sendStatus(404);
+  brands[index] = {
+    ...brands[index],
+    ...req.body
+  }
+  res.send(brands[index]);
 });
 
 app.listen(port, () => {
