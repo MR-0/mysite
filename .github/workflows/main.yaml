@@ -82,7 +82,7 @@ jobs:
           --tag $region-docker.pkg.dev/$project/$docker_repository/api:latest
 
     - name: Print outputs
-      run: echo ${{steps.build.outputs}}
+      run: echo ${{toJSON(steps.build.outputs)}}
   
   infraestructure:
     name: Provisioning and deploy
