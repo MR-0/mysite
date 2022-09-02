@@ -81,7 +81,7 @@ jobs:
           --tag $region-docker.pkg.dev/$project/$docker_repository/api:latest
   
   infraestructure:
-    name: Provisioning
+    name: Provisioning and deploy
     runs-on: ubuntu-latest
     needs: [
       docker-repository,
