@@ -45,6 +45,12 @@ app.put('/brands/:id', (req, res) => {
   res.send(brands[index]);
 });
 
+app.delete('/brands/:id', (req, res) => {
+  const index = brands.map(({ id }) => id).indexOf(req.params.id);
+  if (index < 0) return res.sendStatus(404);
+  res.send(brands.splice(index, 1));
+});
+
 app.listen(port, () => {
   console.log(`⚡️[server]: Server is running at https://localhost:${port}`);
 });
