@@ -2,6 +2,7 @@ import express, { json, Express, Request, Response } from 'express';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import config from './config';
+import log from './logger'
 
 const app: Express = express();
 
@@ -53,5 +54,5 @@ app.delete('/brands/:id', (req, res) => {
 });
 
 app.listen(config.PORT, () => {
-  console.log(`⚡️[server]: Server is running at https://localhost:${config.PORT}`);
+  log(`⚡️[server]: Server is running at https://localhost:${config.PORT}`);
 });
