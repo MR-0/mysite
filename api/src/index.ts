@@ -1,16 +1,13 @@
-import dotenv from 'dotenv'
 import express, { json, Express, Request, Response } from 'express';
 import helmet from 'helmet';
 import morgan from 'morgan';
-
-dotenv.config()
+import config from './config';
 
 const app: Express = express();
-const port = process.env.PORT;
 
 app.use(helmet())
 app.use(json());
-app.use(morgan('tiny'))
+if (config.isDev) app.use(morgan('tiny'))
 
 const brands = [
   { id: '1', name: 'Brand 1', image: 'bucket/images/brand_id/image.jpg'}
@@ -55,6 +52,6 @@ app.delete('/brands/:id', (req, res) => {
   res.send(brands.splice(index, 1).pop());
 });
 
-app.listen(port, () => {
-  console.log(`⚡️[server]: Server is running at https://localhost:${port}`);
+app.listen(config.PORT, () => {
+  console.log(`⚡️[server]: Server is running at https://localhost:${config.PORT}`);
 });
