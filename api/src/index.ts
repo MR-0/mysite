@@ -1,12 +1,14 @@
-import express, { Express, Request, Response } from 'express';
 import dotenv from 'dotenv'
+import express, { json, Express, Request, Response } from 'express';
+import helmet from 'helmet'
 
 dotenv.config()
 
 const app: Express = express();
 const port = process.env.PORT;
 
-app.use(express.json());
+app.use(helmet())
+app.use(json());
 
 const brands = [
   { id: '1', name: 'Brand 1', image: 'bucket/images/brand_id/image.jpg'}
