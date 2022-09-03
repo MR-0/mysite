@@ -7,7 +7,7 @@ const loggers: loggersInterface = {}
 
 export default (
   message:any,
-  scope:string = 'DEFAULT'
+  scope:string = 'default'
 ) => {
   if (!loggers[scope]) loggers[scope] = debug(scope)
   loggers[scope](`--> ${message}`)

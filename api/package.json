@@ -6,7 +6,7 @@
   "scripts": {
     "build": "npx tsc",
     "start": "npm run build && node dist/index",
-    "dev": "npx nodemon src/index.ts ",
+    "dev": "npx nodemon -r dotenv/config src/index.ts ",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

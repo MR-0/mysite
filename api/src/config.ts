@@ -1,7 +1,3 @@
-import dotenv from 'dotenv'
-
-dotenv.config({ override: true })
-
 interface configInterface {
   PORT?: number,
   NODE_ENV?: 'development' | 'production',
