@@ -31,7 +31,7 @@ provider "google" {
   zone    = "us-central1-c"
 }
 
-
+# Cloud Run
 resource "google_cloud_run_service" "api" {
   name     = "api"
   location = var.region
@@ -67,4 +67,11 @@ resource "google_cloud_run_service_iam_policy" "noauth" {
   project     = google_cloud_run_service.api.project
   service     = google_cloud_run_service.api.name
   policy_data = data.google_iam_policy.noauth.policy_data
+}
+
+# Firestore
+resource "google_app_engine_application" "app" {
+  project       = var.project
+  location_id   = var.region
+  database_type = "CLOUD_FIRESTORE"
 }
