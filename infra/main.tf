@@ -72,6 +72,6 @@ resource "google_cloud_run_service_iam_policy" "noauth" {
 # Firestore
 resource "google_app_engine_application" "app" {
   project       = var.project
-  location_id   = var.region
+  location_id   = replace(var.region, "/\\d+$/", "")
   database_type = "CLOUD_FIRESTORE"
 }
